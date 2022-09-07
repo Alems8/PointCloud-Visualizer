@@ -10,11 +10,12 @@ import ply_computing as ply
 import visualization as vis
 import numpy as np
 
-coords = None
-file = None
-colors = None
+
 
 def run(path, factor):
+    coords = None
+    file = None
+    colors = None
     if (path.endswith(('.las','.laz'))):
         file = las.get_las_file(path)
         coords = las.get_coords(file)
@@ -26,7 +27,7 @@ def run(path, factor):
     else:
         print('Wrong file extension')
     
-    vis.set_visuals(factor, colors, coords)
+    return vis.set_visuals(factor, colors, coords)
     
     
 def main():

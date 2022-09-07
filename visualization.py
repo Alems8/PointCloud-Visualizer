@@ -19,7 +19,7 @@ def set_visuals(factor, clas, pos):
     vispy.use('pyqt5')
 
 
-    canvas = vispy.scene.SceneCanvas(keys='interactive', show=True)
+    canvas = vispy.scene.SceneCanvas(keys='interactive')
     view = canvas.central_widget.add_view()
 
     # las_file = laspy.read('F:/Anaconda/Projects/Thesis/Datset/5080_54435.las')
@@ -46,8 +46,7 @@ def set_visuals(factor, clas, pos):
     view.add(scatter)
     view.camera = 'turntable'
     
-    if sys.flags.interactive != 1:
-        app.run()
+    return canvas
 
 
 
