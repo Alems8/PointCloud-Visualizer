@@ -28,9 +28,10 @@ def run(path, factor):
     
     vis_points = factor*coords.shape[0]
     factor = coords.shape[0] / (coords.shape[0]*factor)
-    canvas, vis_points  = vis.set_visuals(int(factor), colors, coords)
+    return int(factor), colors, coords
+    # canvas, vis_points  = vis.set_visuals(int(factor), colors, coords)
     
-    return vis_points, coords.shape[0], canvas
+    # return vis_points, coords.shape[0], canvas
     
     
 def main():
