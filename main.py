@@ -8,7 +8,6 @@ Created on Mon Sep  5 18:51:31 2022
 import las_computing as las
 import ply_computing as ply
 import visualization as vis
-import numpy as np
 
 
 
@@ -22,12 +21,16 @@ def run(path, factor):
         colors = las.get_classification(file)
     elif(path.endswith('.ply')):
         file = ply.get_file(path)
-        coords = ply.get_coords(file)
+        coords = ply.get_coord(file)
         colors = ply.get_attribute(file, 'sem_class')
     else:
         print('Wrong file extension')
     
-    return vis.set_visuals(factor, colors, coords)
+    vis_points = factor*coords.shape[0]
+    factor = coords.shape[0] / (coords.shape[0]*factor)
+    canvas, vis_points  = vis.set_visuals(int(factor), colors, coords)
+    
+    return vis_points, coords.shape[0], canvas
     
     
 def main():

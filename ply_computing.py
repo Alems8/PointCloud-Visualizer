@@ -4,7 +4,7 @@ Created on Mon Sep  5 18:24:16 2022
 
 @author: aleal
 """
-from plyfile import PlyData, PlyElement
+from plyfile import PlyData
 import numpy as np
 
 
