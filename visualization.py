@@ -15,10 +15,6 @@ from vispy.scene import visuals
 def set_visuals(factor, clas, pos):
     vispy.use('pyqt5')
 
-
-    canvas = vispy.scene.SceneCanvas(keys='interactive')
-    view = canvas.central_widget.add_view()
-
     pos = pos[::factor]
 
     colors=[]
@@ -33,10 +29,7 @@ def set_visuals(factor, clas, pos):
     
     scatter.set_data(pos, edge_color=colors, face_color=colors, size = 5, scaling=True)
     
-    view.add(scatter)
-    view.camera = 'turntable'
-    
-    return canvas, pos.shape[0]
+    return scatter, pos.shape[0]
 
 
 
