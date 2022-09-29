@@ -20,7 +20,7 @@ StyleSheet = '''
 #ProgressBar {
     min-height: 12px;
     max-height: 12px;
-    width: 150px;
+    width: 80px;
     border-radius: 6px;
 }
 '''
@@ -55,6 +55,8 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         
+        self.screenWidth = QDesktopWidget().availableGeometry().width()
+        self.screenHeight = QDesktopWidget().availableGeometry().height()
         self.Vlayout = QVBoxLayout()
         self.hlayout = QHBoxLayout()
         self.grid = QGridLayout()
@@ -63,6 +65,7 @@ class MainWindow(QMainWindow):
         self.classes=None
         
         self.Url = ''
+        self.isNewUrl = True
         self.fileButton = QPushButton()
 
         self.renderButton = QPushButton()
@@ -84,7 +87,7 @@ class MainWindow(QMainWindow):
         self.fileButton.setSizePolicy(PyQt5.QtWidgets.QSizePolicy.Maximum, PyQt5.QtWidgets.QSizePolicy.Fixed)
         
 
-        self.pointsSelector.setRange(0,100)
+        self.pointsSelector.setRange(1,100)
         self.pointsSelector.setValue(80)
         self.pointsSelector.setTickPosition(QSlider.TicksAbove)
         self.pointsSelector.setTickInterval(10)
@@ -153,17 +156,30 @@ class MainWindow(QMainWindow):
         self.showMaximized()
 
     def fileOpening(self):
+        prevUrl = self.Url
         self.Url, _filter = QFileDialog.getOpenFileName(self,'Seleziona il file', None,'Point Cloud files (*.las *.laz *.ply)')
+        if(self.Url == ''):
+            msg = QMessageBox()
+            msg.setWindowTitle('Warning')
+            msg.setText('Non è stato selezionato nessun file!')
+            msg.setIcon(QMessageBox().Warning)
+            msg.exec_()
+        elif(self.Url != prevUrl):
+            self.isNewUrl = True
+            self.pointsSelector.setValue(80)
+
         
         
     def selectionChange(self, value):
         self.nPoints = value/1000
         if(self.nPoints < 0.05):
-            msg = QMessageBox()
-            msg.setWindowTitle('Warning')
-            msg.setText('Stai selezionando un valore inferirore al 50%, la rappresentazione non sarà accurata')
-            msg.setIcon(QMessageBox().Warning)
-            msg.exec_()
+            if(self.isNewUrl):
+                msg = QMessageBox()
+                msg.setWindowTitle('Warning')
+                msg.setText('Stai selezionando un valore inferirore al 50%, la rappresentazione non sarà accurata')
+                msg.setIcon(QMessageBox().Warning)
+                msg.exec_()
+                self.isNewUrl = False
             
     def setCanvas(self, scatter, visPoints, total_Points):
         self.Vlayout.removeWidget(self.canvas.native)
@@ -248,20 +264,18 @@ class MainWindow(QMainWindow):
             self.classes.setMaximumWidth(self.colorButton.width())
             self.classes.setSizePolicy(PyQt5.QtWidgets.QSizePolicy.Maximum, PyQt5.QtWidgets.QSizePolicy.Maximum)
             self.classes.setParent(self.container)
-            geom = QDesktopWidget().availableGeometry()
-            width = geom.width()-self.classes.width()
-            height = geom.height()-self.classes.height()
-            self.classes.move(width, height)
+            self.classes.move(self.width()-self.classes.width(), self.height()-self.classes.height())
             self.classes.show()
         else:
             if(self.classes.isVisible()):
                 self.classes.hide()
             else:
-                geom = QDesktopWidget().availableGeometry()
-                width = geom.width()-self.classes.width()
-                height = geom.height()-self.classes.height()
-                self.classes.move(width, height)
+                self.classes.move(self.width()-self.classes.width(), self.height()-self.classes.height())
                 self.classes.show()
+    def resizeEvent(self, event):
+        if(self.classes != None):
+            self.classes.hide()
+        PyQt5.QtWidgets.QMainWindow.resizeEvent(self, event)
 
 app = QApplication([])
 window = MainWindow()
