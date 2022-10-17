@@ -1,6 +1,6 @@
 # PointCloud-visualization
 
-PRERequisiti
+Prerequisiti
 
 -GPU che supporta OpenGl > 2.0
 
