@@ -1,0 +1,6 @@
+In order to work, the software, needs as input a pandas dataframe built as follows:
+    (x,y,z)             || ClassNamePrediction1 || ... || ClassNamePrediction n  || GroundTruth
+numpy array of float32  ||      float32         || ... ||         float32        ||     int64   
+
+
+This dataframe must be saved as a pickle file (.pkl) in order to be correctly loaded.
