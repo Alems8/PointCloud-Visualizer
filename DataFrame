@@ -1,5 +1,5 @@
 In order to work, the software, needs as input a pandas dataframe built as follows:
-  x      ||       y     ||       z  || ClassNamePrediction1 || ... || ClassNamePrediction n  || GroundTruth
+  x      ||       y     ||       z  || ClassNamePrediction1 || ... || ClassNamePrediction n  ||      GT
 float32  ||   float32   || float32  ||      float32         || ... ||         float32        ||     uint16   
 
 
