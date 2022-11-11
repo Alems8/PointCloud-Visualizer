@@ -38,7 +38,7 @@ To start using this app you need to configure a anconda environment with `python
  After you have created a DataFram in this format you need to convert it to a pickle file using the built-in function `DataFrame.to_pickle(path)`.
  Once you have saved a file with this extension you can start using the tool.
  
-<br> After you have downloaded it you will have three .py files. In order to run the app you have to execute the `GUI.py` file.
+<br> After you have downloaded this repository you will have three .py files. In order to run the app you have to execute the `GUI.py` file.
 ## Limitations:
  At the moment the app can work only with maximum ten classes and point clouds which don't contains more than 10M points, in order to mantain the title of real time app, because otherwise it will become much slower rendering the points and doing all the updates operations.
 
