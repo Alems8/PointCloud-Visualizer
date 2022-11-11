@@ -5,7 +5,7 @@ Image of a render.
 
 ## General info
 ### Basic Usage:
-This application is meant to be used to visualize and intercat real time with large point clouds. In order for the app to work is defined a [DataFrame format](readme.md#DataFrame) which must be created before using the app.<br>
+This application is meant to be used to visualize and intercat real time with large point clouds. In order for the app to work is defined a [DataFrame format](README.md#DataFrame) which must be created before using the app.<br>
 To open a file you can navigate the File menu, click on the open tab and select the file you want to view. Otherwise you can also use the shorcut `ctrl+o`.
 <br> To save a screenshot of the point cloud you are viewing with the selected settings you can navigate the File menu and click the Save tab. Otherwise you can use the shortcut `ctrl+s`.
 <br> To quit the app you can navigate the File menu and press exit or use the shortcut `ctrl+e`.
