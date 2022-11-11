@@ -35,7 +35,7 @@ To start using this app you need to configure a anconda environment with `python
 <br> If you still want to use this tool without having predictions you can still do it populating the rows as follows:
  row i: 1875.4523 15.2456 1.245 0 0 0 0 1 4 , assuming you have 5 classes in your point cloud and the class corresponding to this point is the class 5 (you start counting the classes from 0).
 #### First configuration:
- After you have created a DataFram in this format you need to convert it to a pickle file using the built-in function DataFrame.to_pickle(path).
+ After you have created a DataFram in this format you need to convert it to a pickle file using the built-in function `DataFrame.to_pickle(path)`.
  Once you have saved a file with this extension you can start using the tool.
  
 <br> After you have downloaded it you will have three .py files. In order to run the app you have to execute the `GUI.py` file.
