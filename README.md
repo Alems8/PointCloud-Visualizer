@@ -1,19 +1,23 @@
 # PointCloud-Visualizer
 
-Display, edit and save colored point cloud in the DataFrame format.
-Image of a render.
+Display, edit and save colored point cloud.
+![Screen with a point cloud loaded](https://user-images.githubusercontent.com/90287909/201473654-f45028e1-2449-42c2-839d-7e490d56e3d4.png)
+
 
 ## General info
 ### Basic Usage:
 This application is meant to be used to visualize and intercat real time with large point clouds. In order for the app to work is defined a [DataFrame format](README.md#DataFrame) which must be created before using the app.<br>
 To open a file you can navigate the File menu, click on the open tab and select the file you want to view. Otherwise you can also use the shorcut `ctrl+o`.
-<br> To save a screenshot of the point cloud you are viewing with the selected settings you can navigate the File menu and click the Save tab. Otherwise you can use the shortcut `ctrl+s`.
+<br> To save a screenshot of the point cloud you are viewing with the selected settings you can navigate the File menu and click the Save tab. Otherwise you can use the shortcut `ctrl+s`.![Image generated with the save command](https://user-images.githubusercontent.com/90287909/201473869-e908f6b8-8cc1-480d-8d00-17c26ea6227b.png)
+
 <br> To quit the app you can navigate the File menu and press exit or use the shortcut `ctrl+e`.
 ### Features:
+![toolBox](https://user-images.githubusercontent.com/90287909/201473754-00864878-b257-4d5b-810b-6b896a4a91f2.png)
 - Density: the percentage of points displayed. It is a value between 1 and 100
 - Alpha: describe the transparency of the points displayed. It is a value between 0.00 and 1.00.
 - Point Size: point size in pixels
 - Classes: in this treewidget are shown all the classes described in the dataset, each one with a different color and the informations about the number of points displayed, at the moment, and the accuracy score of the class. Using the checkbox next to the class name is possibele to enable or disable the classes from the current view. 
+![Image of the view after changing some parameters](https://user-images.githubusercontent.com/90287909/201473815-30bbd7c7-0218-4adc-a581-ea39fa0cd972.png)
 <br>****Important: at least one class must always be displayed.****
 image of the features 
 ### Installation and First configuration:
