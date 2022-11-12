@@ -34,10 +34,19 @@ To start using this app you need to configure a anconda environment with `python
  Once you have configured the conda environment with all the above packages, you need to create a pandas DataFrame and convert it to a pickle file in order to be read by the app.
  #### DataFrame:
  The DataFrame is built thinking that this app may be used after a phase of segmentation of the original point cloud so this is the reason why it is structured as follows:<br>
- X,Y,Z,ClassName1,...,ClassNameN,GT
+ 
+ |X|Y|Z|ClassName1|...|ClassNameN|GT|
+ |-|-|-|----------|---|----------|--|
+ |float32|float32|float32|float32|...|float32|uint16|
+ 
  As you can see there are n+4 columns. The first tree contains, respectively, the x,y,z of the point, the last one the correct class of the point. In between this 4 columns there are n columns which represents the classes of the point cloud and which contains the results of a hypothetical prediction phase during the segmentation of the point cloud.
 <br> If you still want to use this tool without having predictions you can still do it populating the rows as follows:
- row i: 1875.4523 15.2456 1.245 0 0 0 0 1 4 , assuming you have 5 classes in your point cloud and the class corresponding to this point is the class 5 (you start counting the classes from 0).
+
+ ||X|Y|Z|ClassName1|ClassName2|ClassName3|ClassName4|ClassName5|GT|
+ |-|-|-|-|----------|----------|----------|----------|----------|--|
+ |row i|1875.4523|15.2456|1.245|0|0|0|0|1|4|
+ 
+ Assuming you have 5 classes in your point cloud and the class corresponding to this point is the class 5 (you start counting the classes from 0).
 #### First configuration:
  After you have created a DataFram in this format you need to convert it to a pickle file using the built-in function `DataFrame.to_pickle(path)`.
  Once you have saved a file with this extension you can start using the tool.
