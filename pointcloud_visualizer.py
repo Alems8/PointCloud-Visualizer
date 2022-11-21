@@ -23,7 +23,7 @@ from functools import partial
 
 
 class WorkerSignals(QObject):
-
+#definition of custom signals for the Worker class
     finished = pyqtSignal()
     result = pyqtSignal(visuals.Markers)
 
@@ -39,6 +39,10 @@ class Worker(QRunnable):
         self.signals = WorkerSignals()
 
     def run(self):
+        #this method is used to run the the method of the CustomWidget package. 
+        #If isD=True is called the method updateD which is used to update the scatter after modifying the density or point size or the classes displayed
+        #If isA=True is called the method updateA which is used to update the alpha value of the scatter
+        #If isD=isA=False, is called the method setData which is used on the first initialization of the app.
         if(self.isD == False & self.isA == False):
             scatter = self.cw.setData()
             self.signals.result.emit(scatter)
@@ -51,6 +55,7 @@ class Worker(QRunnable):
     
 
 class Ui_MainWindow(object):
+    #class that define the user interface of the app
     sendValues = pyqtSignal(customWidgets.DataFrame)
 
     def setupUi(self, MainWindow):
@@ -243,6 +248,7 @@ class Ui_MainWindow(object):
  
 
     def retranslateUi(self, MainWindow):
+        #this method set the text of all the widgets defined
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.label_2.setText(_translate("MainWindow", "Alpha:"))
@@ -271,6 +277,7 @@ class Ui_MainWindow(object):
         self.showMaximized()
     
     def fileOpener(self):
+        #this method is called when the action_Open is triggered and let the user pick the file and call the methods to set up the canvas
         newFn, _filter = QFileDialog.getOpenFileName(self,'Seleziona il file', None,'Pickle Files (*.pkl)')
         if(newFn == ''):
             msg = QMessageBox()
@@ -289,6 +296,7 @@ class Ui_MainWindow(object):
             self.cw.setDf(newFn)
             self.renderCanvas()
     def populateOpenRecent(self):
+        #this method is called when the open_Recent_Menu is hovered or clicked and populate the menu.
         actions = []
         for file in self.recentFiles:
             action = QAction(file, self)
@@ -296,6 +304,7 @@ class Ui_MainWindow(object):
             action.triggered.connect(partial(self.openRecentFile, file))
         self.open_Recent_Menu.addActions(actions) 
     def openRecentFile(self, fileName):
+        #This method is called when a file in the recent menu is clicked. It has the same behaviour as the fileOpener method and set up the canvas to be rendered.
         if(self.currentFn != fileName):
             QApplication.setOverrideCursor(QtCore.Qt.WaitCursor)
             self.currentFn = fileName
@@ -305,11 +314,13 @@ class Ui_MainWindow(object):
             self.cw.setDf(fileName)
             self.renderCanvas()
     def saveScreenshot(self):
+        #This method is called when the action_Save is triggered and take a screenshot of the current canvas.
         pos = self.openGLWidget.mapToGlobal(QtCore.QPoint(0, 0))
         im = _screenshot((pos.x(), pos.y(), self.canvas.size[0], (self.canvas.size[1]-150)))
         file, _filter = QFileDialog.getSaveFileName(self,'Salva il file', None,'Images (*.png *.xpm *.jpg)')
         imsave(file, im)
     def setClasses(self):
+        #This method is called when a new file is uploaded and populate the TreeWidget with the classes of the Point cloud
         self.treeBuilt = False
         self.treeWidget.clear()
         _translate = QtCore.QCoreApplication.translate
@@ -325,6 +336,7 @@ class Ui_MainWindow(object):
             self.treeWidget.topLevelItem(i).child(0).setText(0, _translate("MainWindow", "Number of points: "+str(self.cw.getPoints(i))))
         self.treeBuilt = True
     def updateTree(self):
+        #This method is called when there is an update of the number of points displayed and it updates the Number of points of all the classes.
         self.treeBuilt = False
         _translate = QtCore.QCoreApplication.translate
         classes = self.cw.getClasses()
@@ -332,6 +344,7 @@ class Ui_MainWindow(object):
             self.treeWidget.topLevelItem(i).child(0).setText(0, _translate("MainWindow", "Number of points: "+str(self.cw.getPoints(i))))
         self.treeBuilt = True
     def createIconColor(self, i):
+        #This method creates the icon of the color to be associated with the classes in the TreeWidget.
         image = QImage(16, 16, QImage.Format_ARGB32)
         image.fill(QColor(self.cw.getColor(i)))
         out_img = QImage(16, 16, QImage.Format_ARGB32)
@@ -345,13 +358,16 @@ class Ui_MainWindow(object):
         pm = QPixmap.fromImage(out_img)
         return pm
     def setCanvas(self, scatter):
+        #This method set the new scatter
         self.scatter = scatter
         view = self.canvas.central_widget.add_view()
         view.add(self.scatter)
         view.camera = 'turntable' 
     def updateCanvas(self):
+        #This method is called when the canvas needs to be updated after a change made with the sliders or the TreeWidget
         self.canvas.update()
     def renderCanvas(self):
+        #This method is called when a new file is loaded and creates a new Worker
         worker = Worker(self.cw)
         worker.signals.result.connect(self.setCanvas)
         self.threadpool.start(worker)
@@ -370,6 +386,7 @@ class Ui_MainWindow(object):
             lambda: self.horizontalSlider_3.setEnabled(True)
             )
     def updateD(self):
+        #This method is called when the value of the density is changed and it creates a new Worker 
         QApplication.setOverrideCursor(QtCore.Qt.WaitCursor)
         self.cw.setDensity(self.horizontalSlider_2.value())
         worker = Worker(self.cw, isD=True, scatter = self.scatter)
@@ -397,6 +414,7 @@ class Ui_MainWindow(object):
             lambda: self.horizontalSlider_3.setEnabled(True)
             )
     def updateA(self):
+        #This method is called when the value of Alpha is changed. It creates a new Worker 
         QApplication.setOverrideCursor(QtCore.Qt.WaitCursor)
         self.cw.setAlpha(self.horizontalSlider_2.value())
         worker = Worker(self.cw, isA=True, scatter = self.scatter)
@@ -426,6 +444,7 @@ class Ui_MainWindow(object):
             lambda: self.horizontalSlider_3.setEnabled(True)
             )
     def updateClass(self,treeItem, c):
+        #This method is called when there is a change in the checkbox associated with a class in the TreeWidget. It creates a new Worker. 
         if(self.treeBuilt == True):
             QApplication.setOverrideCursor(QtCore.Qt.WaitCursor)
             self.cw.setClass(treeItem.text(c))
@@ -454,6 +473,7 @@ class Ui_MainWindow(object):
                 lambda: self.horizontalSlider_3.setEnabled(True)
                 )
     def updateS(self):
+        #This method is called when the value of the point size is changed. It creates a new Worker 
         QApplication.setOverrideCursor(QtCore.Qt.WaitCursor)
         self.cw.setSize(self.horizontalSlider_3.value())
         worker = Worker(self.cw, isD=True, scatter = self.scatter)
